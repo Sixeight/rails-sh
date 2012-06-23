@@ -15,13 +15,9 @@ BANNER
 
 ENV["RAILS_ENV"] ||= ARGV.shift
 
-APP_PATH = File.expand_path('./config/application')
-puts "\e[34m# require #{File.expand_path('./config/boot')}\e[0m"
-require File.expand_path('./config/boot')
-puts "\e[34m# require #{APP_PATH}\e[0m"
-require APP_PATH
-puts "\e[34m# Rails.application.require_environment!\e[0m"
-Rails.application.require_environment!
+BOOT_SCRIPT = File.expand_path('./config/boot')
+require BOOT_SCRIPT
+puts "\e[34m# require #{BOOT_SCRIPT}\e[0m"
 
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'rails/sh'

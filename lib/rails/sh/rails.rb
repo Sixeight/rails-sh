@@ -15,19 +15,24 @@ module Rails
 
         def _invoke(line)
           reload!
+          command, *args = line.split(/\s+/)
           ARGV.clear
-          ARGV.concat line.split(/\s+/)
-          puts "\e[42m$ rails #{ARGV.join(" ")}\e[0m"
-          require 'rails/commands'
+          ARGV.concat args
+          puts "\e[42m$ script/#{command}\e[0m"
+          require "commands/#{command}"
         end
 
         def reload!
-          ActionDispatch::Callbacks.new(Proc.new {}).call({})
+          Dispatcher.cleanup_application
+          Dispatcher.reload_application
         end
 
         def sub_commands
-          %w(generate destroy plugin benchmarker profiler
-            console server dbconsole application runner)
+          %w(
+            about dbconsole plugin server
+            console daemons destroy generate runner
+            performance/profiler performance/benchmarker
+          )
         end
       end
     end
